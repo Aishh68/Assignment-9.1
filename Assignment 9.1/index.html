@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Required viewport meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assignment 9.1 - Responsive Dashboard</title>
+
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* ==================================
+           MOBILE FIRST: Default styles
+           ================================== */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-areas:
+                "header"
+                "sidebar"
+                "main";
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            grid-area: header;
+            background: white;
+            padding: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .header h1 {
+            font-size: 21px;
+            color: #1d4ed8;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #1d4ed8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Sidebar: horizontal menu on mobile */
+        .sidebar {
+            grid-area: sidebar;
+            background: #172554;
+            color: white;
+            padding: 12px;
+        }
+
+        .sidebar h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #bfdbfe;
+            margin-bottom: 10px;
+        }
+
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+            background: #24396e;
+            padding: 9px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .menu a:hover {
+            background: #3b82f6;
+        }
+
+        /* Main content */
+        .main {
+            grid-area: main;
+            min-width: 0;
+            padding: 18px 14px;
+        }
+
+        .welcome {
+            margin-bottom: 20px;
+        }
+
+        .welcome h2 {
+            font-size: 23px;
+            margin-bottom: 5px;
+        }
+
+        .welcome p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Statistic cards: one column on small phones */
+        .stats {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            min-width: 0;
+            background: white;
+            padding: 17px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .card-top h3 {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: normal;
+        }
+
+        .icon {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            font-size: 20px;
+            background: #dbeafe;
+        }
+
+        .card h2 {
+            font-size: 27px;
+            margin-bottom: 5px;
+        }
+
+        .change {
+            font-size: 13px;
+            color: #15803d;
+        }
+
+        /* Activity table */
+        .activity {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .activity h2 {
+            font-size: 19px;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 450px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .footer {
+            padding: 18px;
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ==================================
+           TABLET BREAKPOINT: 600px and above
+           ================================== */
+
+        @media (min-width: 600px) {
+            .header {
+                padding: 20px 24px;
+            }
+
+            .sidebar {
+                padding: 15px 20px;
+            }
+
+            .main {
+                padding: 25px 22px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 18px;
+            }
+
+            .welcome h2 {
+                font-size: 27px;
+            }
+
+            .activity {
+                padding: 22px;
+            }
+        }
+
+        /* ==================================
+           DESKTOP BREAKPOINT: 1000px and above
+           ================================== */
+
+        @media (min-width: 1000px) {
+            .dashboard {
+                grid-template-columns: 230px minmax(0, 1fr);
+                grid-template-rows: 72px minmax(0, 1fr);
+                grid-template-areas:
+                    "header header"
+                    "sidebar main";
+            }
+
+            .header {
+                padding: 0 30px;
+            }
+
+            .sidebar {
+                padding: 25px 15px;
+            }
+
+            .sidebar h2 {
+                margin: 0 10px 18px;
+                font-size: 13px;
+            }
+
+            .menu {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .menu a {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .main {
+                padding: 30px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .activity {
+                padding: 24px;
+            }
+
+            th, td {
+                padding: 15px 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <header class="header">
+            <h1>MyDashboard</h1>
+
+            <div class="profile">
+                <div class="avatar">S</div>
+                <span>Student</span>
+            </div>
+        </header>
+
+        <aside class="sidebar">
+            <h2>Main Menu</h2>
+
+            <nav class="menu">
+                <a href="#overview">📊 Dashboard</a>
+                <a href="#stats">📈 Analytics</a>
+                <a href="#activity">📋 Reports</a>
+                <a href="#activity">🕒 Recent Activity</a>
+            </nav>
+        </aside>
+
+        <main class="main" id="overview">
+
+            <section class="welcome">
+                <h2>Dashboard Overview</h2>
+                <p>Welcome back! Here is your activity summary.</p>
+            </section>
+
+            <section class="stats" id="stats">
+
+                <article class="card">
+                    <div class="card-top">
+                        <h3>Total Students</h3>
+                        <div class="icon">👨‍🎓</div>
+                    </div>
+                    <h2>1,250</h2>
+                    <p class="change">↑ 12% this month</p>
+                </article>
+
+                <article class="card">
+                    <div class="card-top">
+                        <h3>Total Courses</h3>
+                        <div class="icon">📚</div>
+                    </div>
+                    <h2>48</h2>
+                    <p class="change">↑ 5 new courses</p>
+                </article>
+
+                <article class="card">
+                    <div class="card-top">
+                        <h3>Assignments</h3>
+                        <div class="icon">📝</div>
+                    </div>
+                    <h2>320</h2>
+                    <p class="change">↑ 18% this month</p>
+                </article>
+
+                <article class="card">
+                    <div class="card-top">
+                        <h3>Completion Rate</h3>
+                        <div class="icon">✅</div>
+                    </div>
+                    <h2>86%</h2>
+                    <p class="change">↑ 4% this month</p>
+                </article>
+
+            </section>
+
+            <section class="activity" id="activity">
+                <h2>Recent Activity</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>HTML Assignment</td>
+                            <td>21 Oct 2026</td>
+                            <td>
+                                <span class="status completed">Completed</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>CSS Grid Project</td>
+                            <td>20 Oct 2026</td>
+                            <td>
+                                <span class="status pending">Pending</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Java Practice</td>
+                            <td>19 Oct 2026</td>
+                            <td>
+                                <span class="status completed">Completed</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <footer class="footer">
+                Assignment 9.1 | Mobile-First Responsive Dashboard
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
